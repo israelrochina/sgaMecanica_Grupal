@@ -25,7 +25,7 @@ public class SegColaborador implements Serializable {
 	@Column(nullable=false, length=32)
 	private String clave;
 
-	@Column(nullable=false, length=13)
+	@Column(nullable=false, length=25)
 	private String usuario;
 
 	//bi-directional many-to-one association to SegPersona

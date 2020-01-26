@@ -27,9 +27,6 @@ public class VenFactura implements Serializable {
 	@Column(name="base_imponible", nullable=false, precision=16, scale=2)
 	private BigDecimal baseImponible;
 
-	@Column(nullable=false, length=7)
-	private String estado;
-
 	@Column(nullable=false)
 	private Boolean estadopagado;
 
@@ -91,14 +88,6 @@ public class VenFactura implements Serializable {
 
 	public void setBaseImponible(BigDecimal baseImponible) {
 		this.baseImponible = baseImponible;
-	}
-
-	public String getEstado() {
-		return this.estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 
 	public Boolean getEstadopagado() {
