@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+<h:form id="formMenu">
+
+
+		<p:menubar>
+
+			<p:menuitem value="REGRESAR" url="invproducto.xhtml" />
+
+		</p:menubar>
+	</h:form>
+	<br />
+	<h:form id="formProducto">
+		<p:panel header="DATOS DEL PRODUCTO">
+			<p:panelGrid columns="2">
+				<h:outputText value="ID:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.idProducto}" />
+				<h:outputText value="NOMBRE:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.nombre}" />
+				<h:outputText value="PRECIO COSTE:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.precioCoste}" />
+				<h:outputText value="PRECIO VENTA:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.precioVenta}" />
+				<h:outputText value="DESCRIPCION:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.descripcion}" />
+				<h:outputText value="CANTIDAD:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.cantidad}" />
+				<h:outputText value="MINIMO:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.minimo}" />
+				<h:outputText value="MAXIMO:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.maximo}" />
+				<h:outputText value="IVA:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.venIva.porcentaje}" />
+				<h:outputText value="Marca Producto:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.invMarcaproducto.nombre}" />
+				<h:outputText value="CATEGORIA:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.invCategoria.nombre}" />
+				<h:outputText value="MODELO:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.invModelo.nombre}" />
+				<h:outputText value="PROVEEDOR:" />
+				<h:outputText
+					value="#{beanInvProducto.invProductoSelecionado.proProveedor.nombreEmpresa}" />
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+
+
+
+</body>
+</html>

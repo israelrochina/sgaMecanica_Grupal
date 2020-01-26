@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:form id="formMenu">
+
+
+		<p:menubar>
+			<p:submenu label="INVENTARIO" icon="pi pi-file">
+				<p:menuitem value="CATEGORIA" url="invcategoria.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA" url="invmarca.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA PRODUCTO" url="invmarcaproducto.xhtml" />
+				<p:separator />
+				<p:menuitem value="MODELO" url="invmodelo.xhtml" />
+				<p:separator />
+				<p:menuitem value="PRODUCTO" url="invproducto.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="VENTAS">
+				<p:menuitem value="EMISOR" url="venemisor.xhtml" />
+				<p:separator />
+				<p:menuitem value="IVA" url="veniva.xhtml" />
+				<p:separator />
+				<p:menuitem value="TIPO PAGO" url="ventipopago.xhtml" />
+				<p:separator />
+				<p:menuitem value="CREDITO" url="vencredito.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="SEGURIDAD">
+				<p:menuitem value="COLABORADOR" url="segcolaborador.xhtml" />
+				<p:separator />
+				<p:menuitem value="PERSONA" url="segpersona.xhtml" />
+				<p:separator />
+				<p:menuitem value="ROL" url="segrol.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="PROVEEDOR">
+				<p:menuitem value="PROVEEDOR" url="proproveedor.xhtml" />
+			</p:submenu>
+			<p:submenu label="AUDITORIA">
+
+			</p:submenu>
+			<f:facet name="options">
+				<p:linkButton type="button" value="Logout" outcome="/loginp.xhtml"
+					icon="pi pi-file" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+
+</h:head>
+<body>
+
+
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+
+
+	<h:form id="form1">
+		<p:messages>
+			<p:autoUpdate />
+		</p:messages>
+		<p:panel collapsed="#{beanVenEmisor.panelColpsada}">
+			<f:facet name="header">
+				<p:commandButton value="Nuevo Emisor" icon="fa fa-plus"
+					update="@form"
+					actionListener="#{beanVenEmisor.actionListenerColapsarPanel()}"></p:commandButton>
+			</f:facet>
+			<p:panelGrid columns="2">
+
+				<h:outputText value="Ruc:" />
+				<p:inputText value="#{beanVenEmisor.nuevoVenEmisor.ruc}" />
+				<h:outputText value="Nombre:" />
+				<p:inputText value="#{beanVenEmisor.nuevoVenEmisor.nombre}" />
+				<h:outputText value="Direecion Matriz:" />
+				<p:inputText value="#{beanVenEmisor.nuevoVenEmisor.direccionMatriz}" />
+				<h:outputText value="Nombre Comercial:" />
+				<p:inputText value="#{beanVenEmisor.nuevoVenEmisor.nombreComercial}" />
+				<h:outputText value="Direccion Establecimiento:" />
+				<p:inputText
+					value="#{beanVenEmisor.nuevoVenEmisor.direccionEstablecimiento}" />
+				<h:outputText value="Codigo Estblecimeinto:" />
+				<p:inputText
+					value="#{beanVenEmisor.nuevoVenEmisor.codigoEstableciemitno}" />
+				<h:outputText value="Codigo Punto Emision:" />
+				<p:inputText
+					value="#{beanVenEmisor.nuevoVenEmisor.codigoPuntoemicion}" />
+				<h:outputText value="Numero Autorizacion SRI:" />
+				<p:inputText value="#{beanVenEmisor.nuevoVenEmisor.numAutoriSri}" />
+				<p:commandButton value="Insertar" icon="fa fa-save"
+					update="@form,:form2"
+					actionListener="#{beanVenEmisor.actionInsertarVenEmisor()}"></p:commandButton>
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+
+	<br />
+
+
+	<h:form id="form2">
+		<p:panel header="Datos Modelo">
+			<p:dataTable value="#{beanVenEmisor.listaVenEmisor}" var="emisor"
+				paginator="true" rows="5" reflow="true">
+				<p:column headerText="ID">
+					<h:outputText value="#{emisor.idEmisor}" />
+				</p:column>
+				<p:column headerText="Ruc" filterBy="#{emisor.ruc}">
+					<h:outputText value="#{emisor.ruc}" />
+				</p:column>
+				<p:column headerText="Nombre" filterBy="#{emisor.nombre}">
+					<h:outputText value="#{emisor.nombre}" />
+				</p:column>
+
+				<p:column headerText="Direccion Matriz"
+					filterBy="#{emisor.direccionMatriz}">
+					<h:outputText value="#{emisor.direccionMatriz}" />
+				</p:column>
+				<p:column headerText="Numero Autorizacion"
+					filterBy="#{emisor.numAutoriSri}">
+					<h:outputText value="#{emisor.numAutoriSri}" />
+				</p:column>
+				<p:column headerText="Nombre Comercial"
+					filterBy="#{emisor.nombreComercial}">
+					<h:outputText value="#{emisor.nombreComercial}" />
+				</p:column>
+				<p:column headerText="Direccion Establecimiento"
+					filterBy="#{emisor.direccionEstablecimiento}">
+					<h:outputText value="#{emisor.direccionEstablecimiento}" />
+				</p:column>
+				<p:column headerText="Codigo Establecimiento"
+					filterBy="#{emisor.codigoEstableciemitno}">
+					<h:outputText value="#{emisor.codigoEstableciemitno}" />
+				</p:column>
+				<p:column headerText="Codigo Punto Emicion"
+					filterBy="#{emisor.codigoPuntoemicion}">
+					<h:outputText value="#{emisor.codigoPuntoemicion}" />
+				</p:column>
+				<p:column headerText="OPCIONES" priority="1">
+					<p:commandButton icon="fa fa-close" title="Eliminar" update="@form"
+						actionListener="#{beanVenEmisor.actionListenerEliminarVenEmisor(emisor.idEmisor)}">
+						<p:confirm header="Confirmar" message="Desea Eliminar?"
+							icon="fa fa-exclamation-triangle">
+						</p:confirm>
+					</p:commandButton>
+
+					<p:commandButton icon="fa fa-edit" title="Editar"
+						actionListener="#{beanVenEmisor.actionListenerSelccionarVenEmisor(emisor)}"
+						update=":formEdicion" oncomplete="PF('dlgEdicion').show();">
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
+		modal="true">
+		<h:form id="formEdicion">
+			<p:growl>
+				<p:autoUpdate />
+			</p:growl>
+			<h:outputText value="#{beanVenEmisor.venEmisorSeleccionado.idEmisor}" />
+			<p:panelGrid columns="2">
+
+				<h:outputText value="Ruc:" />
+				<p:inputText value="#{beanVenEmisor.venEmisorSeleccionado.ruc}" />
+
+				<h:outputText value="NOmbre:" />
+				<p:inputText value="#{beanVenEmisor.venEmisorSeleccionado.nombre}" />
+
+				<h:outputText value="Direccion matriz:" />
+				<p:inputText
+					value="#{beanVenEmisor.venEmisorSeleccionado.direccionMatriz}" />
+
+				<h:outputText value="Numero autorizacion SRI:" />
+				<p:inputText
+					value="#{beanVenEmisor.venEmisorSeleccionado.numAutoriSri}" />
+
+				<h:outputText value="Nombre comercial:" />
+				<p:inputText
+					value="#{beanVenEmisor.venEmisorSeleccionado.nombreComercial}" />
+
+				<h:outputText value="Establecimiento:" />
+				<p:inputText
+					value="#{beanVenEmisor.venEmisorSeleccionado.direccionEstablecimiento}" />
+
+				<h:outputText value="Codigo establecimiento:" />
+				<p:inputText
+					value="#{beanVenEmisor.venEmisorSeleccionado.codigoEstableciemitno}" />
+
+				<h:outputText value="punto:" />
+				<p:inputText
+					value="#{beanVenEmisor.venEmisorSeleccionado.codigoPuntoemicion}" />
+
+			</p:panelGrid>
+			<p:commandButton value="Actualizar" icon="fa fa-save"
+				update="@form,:form2"
+				actionListener="#{beanVenEmisor.actionListenerActualizarVenEmisor()}" />
+		</h:form>
+
+	</p:dialog>
+
+
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		<p:commandButton value="Sí" type="button"
+			styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+	</p:confirmDialog>
+
+
+
+</body>
+</html>

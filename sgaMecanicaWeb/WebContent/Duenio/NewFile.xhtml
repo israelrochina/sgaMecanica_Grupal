@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<h:form id="formMenu">
+
+
+		<p:menubar>
+			<p:submenu label="INVENTARIO" icon="pi pi-file">
+				<p:menuitem value="CATEGORIA" url="invcategoria.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA" url="invmarca.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA PRODUCTO" url="invmarcaproducto.xhtml" />
+				<p:separator />
+				<p:menuitem value="MODELO" url="invmodelo.xhtml" />
+				<p:separator />
+				<p:menuitem value="PRODUCTO" url="invproducto.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="VENTAS">
+				<p:menuitem value="EMISOR" url="venemisor.xhtml" />
+				<p:separator />
+				<p:menuitem value="IVA" url="veniva.xhtml" />
+				<p:separator />
+				<p:menuitem value="TIPO PAGO" url="ventipopago.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="SEGURIDAD">
+				<p:menuitem value="COLABORADOR" url="segcolaborador.xhtml" />
+				<p:separator />
+				<p:menuitem value="PERSONA" url="segpersona.xhtml" />
+				<p:separator />
+				<p:menuitem value="ROL" url="segrol.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="PROVEEDOR">
+				<p:menuitem value="PROVEEDOR" url="proproveedor.xhtml" />
+			</p:submenu>
+			<p:submenu label="AUDITORIA">
+
+			</p:submenu>
+
+		</p:menubar>
+	</h:form>
+	<h:form>
+		<h:commandButton action="segcolaborador.xhtml" value="enviar" />
+	</h:form>
+</body>
+</html>

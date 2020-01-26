@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+
+	<h:form id="formMenu">
+
+
+		<p:menubar>
+			<p:submenu label="INVENTARIO" icon="pi pi-file">
+				<p:menuitem value="CATEGORIA" url="invcategoria.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA" url="invmarca.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA PRODUCTO" url="invmarcaproducto.xhtml" />
+				<p:separator />
+				<p:menuitem value="MODELO" url="invmodelo.xhtml" />
+				<p:separator />
+				<p:menuitem value="PRODUCTO" url="invproducto.xhtml" />
+
+			</p:submenu>
+
+			<p:submenu label="VENTAS">
+				<p:menuitem value="EMISOR" url="venemisor.xhtml" />
+				<p:separator />
+				<p:menuitem value="IVA" url="veniva.xhtml" />
+				<p:separator />
+				<p:menuitem value="TIPO PAGO" url="ventipopago.xhtml" />
+				<p:separator />
+				<p:menuitem value="CREDITO" url="vencredito.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="SEGURIDAD">
+				<p:menuitem value="COLABORADOR" url="segcolaborador.xhtml" />
+				<p:separator />
+				<p:menuitem value="PERSONA" url="segpersona.xhtml" />
+				<p:separator />
+				<p:menuitem value="ROL" url="segrol.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="PROVEEDOR">
+				<p:menuitem value="PROVEEDOR" url="proproveedor.xhtml" />
+			</p:submenu>
+			<p:submenu label="AUDITORIA">
+
+			</p:submenu>
+			<f:facet name="options">
+				<p:linkButton type="button" value="Logout" outcome="/loginp.xhtml"
+					icon="pi pi-file" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+
+
+	<h:form id="form1">
+		<p:messages>
+			<p:autoUpdate />
+		</p:messages>
+		<p:panel collapsed="#{beanProProveedor.panelColpsada}">
+			<f:facet name="header">
+				<p:commandButton value="Nuevo Proveedor" icon="fa fa-plus"
+					update="@form"
+					actionListener="#{beanProProveedor.actionListenerColapsarPanel()}"></p:commandButton>
+			</f:facet>
+			<p:panelGrid columns="2">
+				<h:outputText value="Ruc:" />
+				<p:inputText value="#{beanProProveedor.nuevoProProveedor.ruc}" />
+				<h:outputText value="Nombre:" />
+				<p:inputText
+					value="#{beanProProveedor.nuevoProProveedor.nombreEmpresa}" />
+				<h:outputText value="Telefono:" />
+				<p:inputText value="#{beanProProveedor.nuevoProProveedor.telefono}" />
+				<h:outputText value="Correo:" />
+				<p:inputText value="#{beanProProveedor.nuevoProProveedor.correo}" />
+				<h:outputText value="Dirección:" />
+				<p:inputText value="#{beanProProveedor.nuevoProProveedor.direccion}" />
+				<h:outputText value="Representante:" />
+
+				<h:selectOneMenu value="#{beanProProveedor.id_persona}">
+
+
+					<f:selectItems value="#{beanSegPersona.listaSegPersona}" var="p"
+						itemLabel="#{p.nombres}" itemValue="#{p.idPersona}"></f:selectItems>
+				</h:selectOneMenu>
+
+				<p:commandButton value="Insertar" icon="fa fa-save" title="Insertar"
+					update="@form,:form2"
+					actionListener="#{beanProProveedor.actionInsertarProProveedor()}"></p:commandButton>
+			</p:panelGrid>
+		</p:panel>
+
+	</h:form>
+	<br />
+
+
+	<h:form id="form2">
+		<p:panel header="Datos Proveedor">
+			<p:dataTable value="#{beanProProveedor.listaProProvedor}"
+				var="proveedor" paginator="true" rows="5" reflow="true">
+				<p:column headerText="ID">
+					<h:outputText value="#{proveedor.idProveedor}" />
+				</p:column>
+				<p:column headerText="Ruc" filterBy="#{proveedor.ruc}">
+					<h:outputText value="#{proveedor.ruc}" />
+				</p:column>
+				<p:column headerText="Nombre" filterBy="#{proveedor.nombreEmpresa}">
+					<h:outputText value="#{proveedor.nombreEmpresa}" />
+				</p:column>
+				<p:column headerText="Telefono" filterBy="#{proveedor.telefono}">
+					<h:outputText value="#{proveedor.telefono}" />
+				</p:column>
+				<p:column headerText="Correo" filterBy="#{proveedor.correo}">
+					<h:outputText value="#{proveedor.correo}" />
+				</p:column>
+				<p:column headerText="Dirección" filterBy="#{proveedor.direccion}">
+					<h:outputText value="#{proveedor.direccion}" />
+				</p:column>
+				<p:column headerText="Representante"
+					filterBy="#{proveedor.segPersona.cedulaRuc}">
+					<h:outputText value="#{proveedor.segPersona.cedulaRuc}" />
+				</p:column>
+				<p:column headerText="OPCIONES" priority="1">
+					<p:commandButton icon="fa fa-close" title="Eliminar" update="@form"
+						actionListener="#{beanProProveedor.actionListenerEliminarProProveedor(proveedor.idProveedor)}">
+						<p:confirm header="Confirmar" message="Desea Eliminar?"
+							icon="fa fa-exclamation-triangle"></p:confirm>
+					</p:commandButton>
+					<p:commandButton icon="fa fa-edit" title="Editar"
+						actionListener="#{beanProProveedor.actionListenerSelccionarProProveedor(proveedor)}"
+						update=":formEdicion" oncomplete="PF('dlgEdicion').show();">
+					</p:commandButton>
+
+
+
+
+				</p:column>
+				<p:column headerText="Representante">
+					<p:commandButton icon="fa fa-user" title="Representante"
+						actionListener="#{beanProProveedor.actionListenerMostrarRepesentantesProProveedor(proveedor)}"
+						update=":formRepresentante"
+						oncomplete="PF('dlgRepresentante').show();">
+					</p:commandButton>
+				</p:column>
+
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
+		modal="true">
+		<h:form id="formEdicion">
+			<p:growl>
+				<p:autoUpdate />
+			</p:growl>
+			<h:outputText
+				value="#{beanProProveedor.proProveedorSeleccionado.idProveedor}" />
+			<p:panelGrid columns="2">
+
+				<h:outputText value="Ruc:" />
+				<p:inputText
+					value="#{beanProProveedor.proProveedorSeleccionado.ruc}" />
+				<h:outputText value="Nombre:" />
+				<p:inputText
+					value="#{beanProProveedor.proProveedorSeleccionado.nombreEmpresa}" />
+				<h:outputText value="Telefono:" />
+				<p:inputText
+					value="#{beanProProveedor.proProveedorSeleccionado.telefono}" />
+				<h:outputText value="Correo:" />
+				<p:inputText
+					value="#{beanProProveedor.proProveedorSeleccionado.correo}" />
+				<h:outputText value="Dirección:" />
+				<p:inputText
+					value="#{beanProProveedor.proProveedorSeleccionado.direccion}" />
+				<h:outputText value="Representante:" />
+
+				<h:selectOneMenu value="#{beanProProveedor.id_persona}">
+
+
+					<f:selectItems value="#{beanSegPersona.listaSegPersona}" var="p"
+						itemLabel="#{p.nombres}" itemValue="#{p.idPersona}"></f:selectItems>
+				</h:selectOneMenu>
+			</p:panelGrid>
+			<p:commandButton value="Actualizar" icon="fa fa-save"
+				update="@form,:form2"
+				actionListener="#{beanProProveedor.actionListenerActualizarProProveedor()}" />
+		</h:form>
+
+	</p:dialog>
+
+
+	<p:dialog header="Representante" widgetVar="dlgRepresentante"
+		modal="true">
+		<h:form id="formRepresentante">
+			<p:growl>
+				<p:autoUpdate />
+			</p:growl>
+
+			<p:panelGrid columns="2">
+
+				<h:outputText value="Ruc:" />
+				<h:outputText
+					value="#{beanProProveedor.proProveedorSeleccionado.segPersona.cedulaRuc}" />
+				<h:outputText value="Nombres:" />
+				<h:outputText
+					value="#{beanProProveedor.proProveedorSeleccionado.segPersona.nombres}" />
+				<h:outputText value="Apellidos:" />
+				<h:outputText
+					value="#{beanProProveedor.proProveedorSeleccionado.segPersona.apellidos}" />
+				<h:outputText value="Telefono:" />
+				<h:outputText
+					value="#{beanProProveedor.proProveedorSeleccionado.segPersona.telefono}" />
+				<h:outputText value="Email:" />
+				<h:outputText
+					value="#{beanProProveedor.proProveedorSeleccionado.segPersona.email}" />
+				<h:outputText value="Sexo:" />
+				<h:outputText
+					value="#{beanProProveedor.proProveedorSeleccionado.segPersona.sexo}" />
+
+			</p:panelGrid>
+
+		</h:form>
+
+	</p:dialog>
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		<p:commandButton value="Sí" type="button"
+			styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+
+
+	</p:confirmDialog>
+
+</body>
+</html>

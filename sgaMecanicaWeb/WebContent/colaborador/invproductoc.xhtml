@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<meta http-equiv="#{beanLogin.actionVerificarLogin()}" content="text/html; charset=UTF-8" />
+	<title>Facturas</title>
+	<h:form id="formMenu">
+
+
+		<p:menubar>
+			<p:submenu label="INVENTARIO" icon="pi pi-file">
+				<p:menuitem value="PRODUCTO" url="invproductoc.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="VENTAS">
+
+			</p:submenu>
+			<f:facet name="options">
+				<p:linkButton type="button" value="Logout" outcome="/loginp.xhtml"
+					icon="pi pi-file" />
+			</f:facet>
+		</p:menubar>
+
+	</h:form>
+	
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<br />
+	<h:form id="form2">
+		<p:panel header="Datos Producto">
+			<p:dataTable value="#{beanInvProducto.listaInvProducto}"
+				var="producto" paginator="true" rows="5" reflow="true">
+				<p:column headerText="ID:">
+					<h:outputText value="#{producto.idProducto}" />
+				</p:column>
+				<p:column headerText="NOMBRE" filterBy="#{producto.nombre}">
+					<h:outputText value="#{producto.nombre}" />
+				</p:column>
+				<p:column headerText="DESCRIPCIÓN"
+					filterBy="#{producto.descripcion}">
+					<h:outputText value="#{producto.descripcion}" />
+				</p:column>
+
+				<p:column headerText="BUSCAR PRODUCTO">
+					<p:commandButton icon="fa fa-search" title="Bucar Producto"
+						actionListener="#{beanInvProducto.actionListenerSelccionarInvProducto(producto)}"
+						action="mostrarproductoc.xhtml">
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+		
+	</h:form>
+
+
+
+</body>
+</html>
