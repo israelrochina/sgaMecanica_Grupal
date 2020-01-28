@@ -18,8 +18,9 @@ public class VenFactura implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_factura", unique=true, nullable=false, length=15)
-	private String idFactura;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_factura", unique=true, nullable=false)
+	private Integer idFactura;
 
 	@Column(name="base_cero", nullable=false, precision=16, scale=2)
 	private BigDecimal baseCero;
@@ -34,6 +35,9 @@ public class VenFactura implements Serializable {
 	@Column(name="fecha_emicion", nullable=false)
 	private Date fechaEmicion;
 
+	@Column(name="numero_factura", nullable=false, length=16)
+	private String numeroFactura;
+
 	@Column(nullable=false, precision=16, scale=2)
 	private BigDecimal subtotal;
 
@@ -45,7 +49,8 @@ public class VenFactura implements Serializable {
 	private List<VenCredito> venCreditos;
 
 	//bi-directional many-to-one association to VenDetalle
-	@OneToMany(mappedBy="venFactura")
+	//@OneToMany(mappedBy="venFactura")
+	@OneToMany(mappedBy="venFactura",cascade = CascadeType.ALL)
 	private List<VenDetalle> venDetalles;
 
 	//bi-directional many-to-one association to SegPersona
@@ -66,11 +71,11 @@ public class VenFactura implements Serializable {
 	public VenFactura() {
 	}
 
-	public String getIdFactura() {
+	public Integer getIdFactura() {
 		return this.idFactura;
 	}
 
-	public void setIdFactura(String idFactura) {
+	public void setIdFactura(Integer idFactura) {
 		this.idFactura = idFactura;
 	}
 
@@ -104,6 +109,14 @@ public class VenFactura implements Serializable {
 
 	public void setFechaEmicion(Date fechaEmicion) {
 		this.fechaEmicion = fechaEmicion;
+	}
+
+	public String getNumeroFactura() {
+		return this.numeroFactura;
+	}
+
+	public void setNumeroFactura(String numeroFactura) {
+		this.numeroFactura = numeroFactura;
 	}
 
 	public BigDecimal getSubtotal() {

@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+
+	<h:form id="formMenu">
+
+		<p:menubar>
+			<p:submenu label="INVENTARIO" icon="pi pi-file">
+				<p:menuitem value="CATEGORIA" url="invcategoria.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA" url="invmarca.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA PRODUCTO" url="invmarcaproducto.xhtml" />
+				<p:separator />
+				<p:menuitem value="MODELO" url="invmodelo.xhtml" />
+				<p:separator />
+				<p:menuitem value="PRODUCTO" url="invproducto.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="VENTAS">
+				<p:menuitem value="EMISOR" url="venemisor.xhtml" />
+				<p:separator />
+				<p:menuitem value="IVA" url="veniva.xhtml" />
+				<p:separator />
+				<p:menuitem value="TIPO PAGO" url="ventipopago.xhtml" />
+				<p:separator />
+				<p:menuitem value="CREDITO" url="vencredito.xhtml" />
+				<p:separator />
+				<p:menuitem value="FACTURAR" url="venfactura.xhtml" />
+			
+			</p:submenu>
+
+			<p:submenu label="SEGURIDAD">
+				<p:menuitem value="COLABORADOR" url="segcolaborador.xhtml" />
+				<p:separator />
+				<p:menuitem value="PERSONA" url="segpersona.xhtml" />
+				<p:separator />
+				<p:menuitem value="ROL" url="segrol.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="PROVEEDOR">
+				<p:menuitem value="PROVEEDOR" url="proproveedor.xhtml" />
+			</p:submenu>
+			<p:submenu label="AUDITORIA">
+
+			</p:submenu>
+			<f:facet name="options">
+				<p:linkButton type="button" value="Logout" outcome="/loginp.xhtml"
+					icon="pi pi-file" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+
+
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<p:panel id="panel1">
+		<h:form id="form1">
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
+			<p:panelGrid columns="2">
+				<p:commandButton action="#{beanVenFactura.crearNuevaFactura()}"
+					value="Cerar Nueva factura" update="form1 :form2"
+					icon="fa fa-file-o" />
+				<h:panelGroup>
+					<p:commandButton value="Guradar factura" icon="fa fa-save"
+						action="#{beanVenFactura.guradarfactura()}" update="@form" />
+					<p:commandButton value="imprimir"
+						rendered="#{beanVenFactura.facturaCabTempGuardada}" type="button"
+						icon="fa fa-print">
+						<p:printer target=":panel1" />
+					</p:commandButton>
+
+				</h:panelGroup>
+
+				<h:outputText value="Nro. de factura" style="font-weight: bold" />
+				<p:inputText value="#{beanVenFactura.numerofactura}" />
+				<h:outputText value="Selecinone el cliente"
+					style="font-weight: bold" />
+				<h:panelGroup>
+					<p:selectOneMenu value="#{beanVenFactura.id_usuario}" filter="true"
+						filterMatchMode="contains">
+						<f:selectItem itemLabel="Selecione ...." itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{beanSegPersona.listaSegPersona}" var="per"
+							itemLabel="#{per.nombres}" itemValue="#{per.idPersona}" />
+
+
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText value="Selecinone tipo de pago"
+					style="font-weight: bold" />
+				<h:panelGroup>
+					<p:selectOneMenu value="#{beanVenFactura.id_tipopago}"
+						filter="true" filterMatchMode="contains">
+
+						<f:selectItems value="#{beanVenTipopago.listaVenTipopago}"
+							var="tipopago" itemLabel="#{tipopago.nombre}"
+							itemValue="#{tipopago.idTipopago}" />
+
+
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText value="Selecinone el Emisor" style="font-weight: bold" />
+				<h:panelGroup>
+					<p:selectOneMenu value="#{beanVenFactura.id_emisor}" filter="true"
+						filterMatchMode="contains">
+
+						<f:selectItems value="#{beanVenEmisor.listaVenEmisor}"
+							var="emisor" itemLabel="#{emisor.nombre}"
+							itemValue="#{emisor.idEmisor}" />
+
+
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText value="Selecinone la estado de factura"
+					style="font-weight: bold" />
+				<h:panelGroup>
+					<p:selectOneMenu value="#{beanVenFactura.estadoFactura}">
+
+						<f:selectItem itemLabel="Pagado" itemValue="true" />
+						<f:selectItem itemLabel="No pagado" itemValue="false" />
+
+					</p:selectOneMenu>
+				</h:panelGroup>
+
+				<h:outputText value="Codigo del cliente:" style="font-weight: bold" />
+				<h:outputText id="cedulaCliente"
+					value="#{beanVenFactura.id_usuario}" />
+			</p:panelGrid>
+		</h:form>
+
+		<h:form id="form2">
+			<p:panel header="Detalle de Prouctos">
+				<p:panelGrid columns="5">
+					<h:outputText value="Producto:" />
+					<p:selectOneMenu value="#{beanVenFactura.id_producto}">
+						<f:selectItem itemLabel="Selecione un producto..." itemValue="-1"
+							noSelectionOption="true" />
+						<f:selectItems value="#{beanInvProducto.listaInvProducto}"
+							var="producto" itemLabel="#{producto.nombre}"
+							itemValue="#{producto.idProducto}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Cabtidad" />
+					<p:spinner value="#{beanVenFactura.cantidadProducto}" min="1"></p:spinner>
+					<p:commandButton value="adicionar"
+						action="#{beanVenFactura.insertarDetalle()}" update="form2"
+						icon="fa fa-plus" />
+
+
+				</p:panelGrid>
+				<p:dataTable value="#{beanVenFactura.nuevoVenFactura.venDetalles}"
+					var="d" id="tabalfacturaDets">
+					<f:facet name="header">
+						<h:outputText value="Detalle Producto" />
+					</f:facet>
+					<p:column style="width:60px" headerText="Codigo">
+						<h:outputText value="#{d.invProducto.idProducto}" />
+					</p:column>
+					<p:column style="width:60px" headerText="Producto">
+						<h:outputText value="#{d.invProducto.nombre}" />
+					</p:column>
+					<p:column style="width:100px" headerText="descripcion">
+						<h:outputText value="#{d.invProducto.descripcion}" />
+					</p:column>
+					<p:column style="width:60px" headerText="P/U">
+						<h:outputText value="#{d.invProducto.precioVenta}" />
+					</p:column>
+					<p:column style="width:60px" headerText="Cantidad">
+						<h:outputText value="#{d.cantidad}" />
+					</p:column>
+					<p:column style="width:160px;text-align:right"
+						headerText="Subtotal">
+						<h:outputText value="#{d.precioSubtotal}" style="text-align:right" />
+					</p:column>
+					<f:facet name="footer">
+						<h:panelGrid columns="2"
+							style="font-weight: bold;text-align:right">
+
+							<h:outputText value="Base imponible:" />
+							<h:outputText
+								value="#{beanVenFactura.nuevoVenFactura.baseImponible}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+									currencySymbol="$" />
+							</h:outputText>
+
+							<h:outputText value="Base Cero:" />
+							<h:outputText value="#{beanVenFactura.nuevoVenFactura.baseCero}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+									currencySymbol="$" />
+							</h:outputText>
+
+							<h:outputText value="Subtota:" />
+							<h:outputText value="#{beanVenFactura.nuevoVenFactura.subtotal}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+									currencySymbol="$" />
+							</h:outputText>
+
+							<h:outputText value="Total:" />
+							<h:outputText value="#{beanVenFactura.nuevoVenFactura.total}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+									currencySymbol="$" />
+							</h:outputText>
+
+
+						</h:panelGrid>
+					</f:facet>
+
+				</p:dataTable>
+			</p:panel>
+
+		</h:form>
+	</p:panel>
+</body>
+</html>

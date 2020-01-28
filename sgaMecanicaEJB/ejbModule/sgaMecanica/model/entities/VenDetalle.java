@@ -42,7 +42,7 @@ public class VenDetalle implements Serializable {
 
 	//bi-directional many-to-one association to VenFactura
 	@ManyToOne
-	@JoinColumn(name="id_factura", nullable=false)
+	@JoinColumn(name="id_factura")
 	private VenFactura venFactura;
 
 	public VenDetalle() {
