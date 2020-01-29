@@ -47,6 +47,10 @@ public class BeanLogin implements Serializable {
 		
 	
 	}
+	public String actionSalir() {
+		managerLogin.setRuta(null);;
+		return "/loginp.xhtml?faces-redirect=true";
+	}
 	
 	/////////////////////////
 

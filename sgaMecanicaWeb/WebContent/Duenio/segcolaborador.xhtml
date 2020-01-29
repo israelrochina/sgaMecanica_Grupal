@@ -9,12 +9,7 @@
 	<meta http-equiv="#{beanLogin.actionVerificarLogin()}"
 		content="text/html; charset=UTF-8" />
 
-	<p:panel>
-		<center>
-			<h1>LISTA DE COLABORADORES</h1>
-		</center>
-	</p:panel>
-
+	
 	<h:form id="formMenu">
 		<p:menubar>
 			<p:submenu label="INVENTARIO" icon="pi pi-file">
@@ -56,12 +51,18 @@
 
 			</p:submenu>
 			<f:facet name="options">
-				<p:linkButton type="button" value="Logout" outcome="/loginp.xhtml"
-					icon="pi pi-file" />
+				<p:commandButton value="SALIR" action="#{beanLogin.actionSalir()}" 
+				icon="fa fa-sign-out"/>
 			</f:facet>
 		</p:menubar>
 	</h:form>
-
+	<br />
+<p:panel>
+		<center>
+			<h1>LISTA DE COLABORADORES</h1>
+		</center>
+	</p:panel>
+<br />
 </h:head>
 <body>
 
@@ -230,6 +231,7 @@
 		</h:form>
 
 	</p:dialog>
+	
 	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 		<p:commandButton value="Sí" type="button"
 			styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
