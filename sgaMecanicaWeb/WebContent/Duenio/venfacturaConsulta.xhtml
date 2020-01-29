@@ -7,7 +7,56 @@
 
 <h:head>
 	<meta http-equiv="#{beanLogin.actionVerificarLogin()}" content="text/html; charset=UTF-8" />
-	
+		<h:form id="formMenu">
+
+		<p:menubar>
+			<p:submenu label="INVENTARIO" icon="pi pi-file">
+				<p:menuitem value="CATEGORIA" url="invcategoria.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA" url="invmarca.xhtml" />
+				<p:separator />
+				<p:menuitem value="MARCA PRODUCTO" url="invmarcaproducto.xhtml" />
+				<p:separator />
+				<p:menuitem value="MODELO" url="invmodelo.xhtml" />
+				<p:separator />
+				<p:menuitem value="PRODUCTO" url="invproducto.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="VENTAS">
+				<p:menuitem value="EMISOR" url="venemisor.xhtml" />
+				<p:separator />
+				<p:menuitem value="IVA" url="veniva.xhtml" />
+				<p:separator />
+				<p:menuitem value="TIPO PAGO" url="ventipopago.xhtml" />
+				<p:separator />
+				<p:menuitem value="CREDITO" url="vencredito.xhtml" />
+				<p:separator />
+				<p:menuitem value="GEBERAR FACTURA" url="venfactura.xhtml" />
+				<p:separator />
+				<p:menuitem value="MOTRAR FACTURAS" url="venfacturaConsulta.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="SEGURIDAD">
+				<p:menuitem value="COLABORADOR" url="segcolaborador.xhtml" />
+				<p:separator />
+				<p:menuitem value="PERSONA" url="segpersona.xhtml" />
+				<p:separator />
+				<p:menuitem value="ROL" url="segrol.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="PROVEEDOR">
+				<p:menuitem value="PROVEEDOR" url="proproveedor.xhtml" />
+			</p:submenu>
+			<p:submenu label="AUDITORIA">
+
+			</p:submenu>
+			<f:facet name="options">
+				<p:commandButton value="SALIR" action="#{beanLogin.actionSalir()}" 
+				icon="fa fa-sign-out"/>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<br />
 	<p:panel>
 		<center>
 			<h1>MOSTRAR FACTURA</h1>
