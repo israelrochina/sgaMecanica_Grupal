@@ -47,6 +47,7 @@ public class ManagerVenFactura {
 		venFacturaCabTmp.setVenDetalles(new ArrayList<>());
 		return venFacturaCabTmp;
 	}
+	
 
 	public void asignarClienteFacturaTmp(VenFactura venfacturaTmp, Integer id_usuario) throws Exception {
 		SegPersona segPersona = null;
@@ -64,6 +65,7 @@ public class ManagerVenFactura {
 		}
 
 	}
+	
 
 	private void calcularVenfactTemp(VenFactura venfactura) {
 		double baseimponible;
@@ -90,6 +92,7 @@ public class ManagerVenFactura {
 venfactura.setBaseCero(new BigDecimal(subtotalsiniva));
 	}
 
+	
 	/* detalle */
 	public void agregarDetallevenfacturaTmp(VenFactura venfacturaTmp, String id_producto, Integer cantidad_producto)
 			throws Exception {
@@ -102,11 +105,15 @@ venfactura.setBaseCero(new BigDecimal(subtotalsiniva));
 			throw new Exception("Error primero debe de especificar el codigo del producto");
 		if (cantidad_producto == null || cantidad_producto.intValue() <= 0)
 			throw new Exception("Error primero debe especificar la cantidad de producto");
-
+		
 		// buamos producto
-
 		invProd = (InvProducto) em.find(InvProducto.class, id_producto);
-
+		
+		// Con este if controlo que la cantidad del detalle de la factura no exeda la cantidada que se encuentra en inventario
+		if(cantidad_producto>invProd.getCantidad())
+			throw new Exception("La cantidad exede la cantidad en bodega , actualmente tiene : "+invProd.getCantidad()+" unidades en bodega");
+		
+						
 		// creamos un nuevo detalle y llenamos sus propiedades
 		venDetalle = new VenDetalle();
 		venDetalle.setCantidad(cantidad_producto);
@@ -127,6 +134,23 @@ venfactura.setBaseCero(new BigDecimal(subtotalsiniva));
 
 	}
 
+	
+	public void eliminarItemDetalle( String codigoProducto,VenFactura venFacturaTmp) {
+		
+		int posicion = -1;
+		for (int i=0;i < venFacturaTmp.getVenDetalles().size();i++) {
+			if(venFacturaTmp.getVenDetalles().get(i).getInvProducto().getIdProducto().equals(codigoProducto)) {
+				posicion=i;
+				break;
+			}	
+		}
+		
+		venFacturaTmp.getVenDetalles().remove(posicion);
+		calcularVenfactTemp(venFacturaTmp);
+		
+		
+	}
+	
 	/*
 	 * Guardar factura Temporal
 	 */
@@ -175,6 +199,7 @@ asignarClienteFacturaTmp(venFacturaTmp, id_usuario);
 		}
 		em.persist(venFacturaTmp);
 		System.out.println(venFacturaTmp.getVenDetalles().get(0).getIdVenDetalle());
+		
 		venFacturaTmp = null;
 	}
 

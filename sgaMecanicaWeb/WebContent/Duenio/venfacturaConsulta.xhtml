@@ -6,30 +6,29 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-<meta http-equiv="#{beanLogin.actionVerificarLogin()}"
-		content="text/html; charset=UTF-8" />
-	
-<p:panel>
+	<meta http-equiv="#{beanLogin.actionVerificarLogin()}" content="text/html; charset=UTF-8" />
+	<p:panel>
 		<center>
 			<h1>MOSTRAR FACTURA</h1>
 		</center>
-
 	</p:panel>
+	
 </h:head>
+
 <body>
 
 	<h:form id="form2">
 		<p:panel header="Datos Factura">
 			<p:dataTable value="#{beanVenFactura.listaVenFactura}" var="fa"
 				paginator="true" rows="5" reflow="true">
-				
-				<p:column headerText="Numero"  width="120">
+
+				<p:column headerText="Numero" width="120">
 					<h:outputText value="#{fa.numeroFactura}" />
 				</p:column>
 				<p:column headerText="Fecha">
 					<h:outputText value="#{fa.fechaEmicion}" />
 				</p:column>
-				
+
 
 				<p:column headerText="Base imponible">
 					<h:outputText value="#{fa.baseImponible}" />
@@ -44,13 +43,13 @@
 					<h:outputText value="#{fa.estadopagado}" />
 				</p:column>
 				<p:column headerText="Cliente">
-				
+
 				</p:column>
 				<p:column headerText="Tipop Pago">
-				
+
 				</p:column>
 				<p:column headerText="Emisor">
-					
+
 				</p:column>
 			</p:dataTable>
 		</p:panel>

@@ -64,7 +64,7 @@ public class BeanLogin implements Serializable {
 				if(requestPath.contains("/Duenio") && managerLogin.getRuta().startsWith("/Duenio"))
 					return;
 				//caso contrario significa que hizo login pero intenta acceder a ruta no permitida:
-				ec.redirect(ec.getRequestContextPath() + "/loginp.xhtml");
+				ec.redirect(ec.getRequestContextPath() + "/faces/loginp.xhtml");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

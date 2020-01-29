@@ -76,6 +76,13 @@ public class BeanVenFactura implements Serializable {
 		}
 		return "";
 	}
+	
+	
+	public String eliminarItemDetalle(String codProducto) {
+		managerVenFactura.eliminarItemDetalle(codProducto, nuevoVenFactura);
+		return "";
+	}
+	
 
 	public String guradarfactura() {
 		if (facturaCabTempGuardada == true) {

@@ -6,6 +6,9 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	<!-- FACTURACION DEL DUENIO -->
+
+
 
 
 	<h:form id="formMenu">
@@ -33,7 +36,7 @@
 				<p:menuitem value="CREDITO" url="vencredito.xhtml" />
 				<p:separator />
 				<p:menuitem value="FACTURAR" url="venfactura.xhtml" />
-			
+
 			</p:submenu>
 
 			<p:submenu label="SEGURIDAD">
@@ -56,9 +59,13 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
-
-
+	<p:panel>
+		<center>
+			<h1>GENERRA FACTURA</h1>
+		</center>
+	</p:panel>
 </h:head>
+
 <body>
 	<p:growl>
 		<p:autoUpdate />
@@ -152,19 +159,29 @@
 							itemValue="#{producto.idProducto}" />
 					</p:selectOneMenu>
 
-					<h:outputText value="Cabtidad" />
+					<h:outputText value="Cantidad" />
 					<p:spinner value="#{beanVenFactura.cantidadProducto}" min="1"></p:spinner>
 					<p:commandButton value="adicionar"
-						action="#{beanVenFactura.insertarDetalle()}" update="form2"
+						action="#{beanVenFactura.insertarDetalle()}" update="form3"
 						icon="fa fa-plus" />
-
-
 				</p:panelGrid>
-				<p:dataTable value="#{beanVenFactura.nuevoVenFactura.venDetalles}"
+
+
+				
+			</p:panel>
+
+		</h:form>
+	</p:panel>
+	<h:form id="form3">
+	<p:panel header="PRODUCTOS">
+		<p:dataTable value="#{beanVenFactura.nuevoVenFactura.venDetalles}"
 					var="d" id="tabalfacturaDets">
 					<f:facet name="header">
 						<h:outputText value="Detalle Producto" />
 					</f:facet>
+
+					
+					
 					<p:column style="width:60px" headerText="Codigo">
 						<h:outputText value="#{d.invProducto.idProducto}" />
 					</p:column>
@@ -183,6 +200,11 @@
 					<p:column style="width:160px;text-align:right"
 						headerText="Subtotal">
 						<h:outputText value="#{d.precioSubtotal}" style="text-align:right" />
+					</p:column>
+					<p:column style="width:60px" headerText="">
+						<p:commandButton value="ELIMINAR"
+						action="#{beanVenFactura.eliminarItemDetalle(d.invProducto.idProducto)}" update="@form"
+						icon="fa fa-plus" />
 					</p:column>
 					<f:facet name="footer">
 						<h:panelGrid columns="2"
@@ -218,9 +240,8 @@
 					</f:facet>
 
 				</p:dataTable>
-			</p:panel>
-
-		</h:form>
 	</p:panel>
+	
+	</h:form>
 </body>
 </html>

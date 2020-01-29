@@ -6,9 +6,10 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-
+	<meta http-equiv="#{beanLogin.actionVerificarLogin()}"
+		content="text/html; charset=UTF-8" />
+	
 	<h:form id="formMenu">
-
 
 		<p:menubar>
 			<p:submenu label="INVENTARIO" icon="pi pi-file">
@@ -55,6 +56,12 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
+	<p:panel>
+		<center>
+			<h1>LISTA DE ROLES</h1>
+		</center>
+
+	</p:panel>
 </h:head>
 <body>
 

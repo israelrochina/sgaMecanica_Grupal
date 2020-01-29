@@ -6,8 +6,10 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-
-
+<meta http-equiv="#{beanLogin.actionVerificarLogin()}"
+		content="text/html; charset=UTF-8" />
+	
+	
 	<h:form id="formMenu">
 
 
@@ -57,6 +59,12 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
+	<p:panel>
+		<center>
+			<h1>LISTA DE PROVEEDORES</h1>
+		</center>
+
+	</p:panel>
 </h:head>
 <body>
 	<p:growl>

@@ -6,8 +6,16 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-
-
+	
+	<meta http-equiv="#{beanLogin.actionVerificarLogin()}"
+		content="text/html; charset=UTF-8" />
+		
+	<p:panel>
+		<center>
+			<h1>MARCAS DE PRODUCTOS</h1>
+		</center>
+	</p:panel>
+	
 	<h:form id="formMenu">
 
 		<p:menubar>
@@ -33,7 +41,7 @@
 				<p:menuitem value="CREDITO" url="vencredito.xhtml" />
 				<p:separator />
 				<p:menuitem value="FACTURAR" url="venfactura.xhtml" />
-			
+
 			</p:submenu>
 
 			<p:submenu label="SEGURIDAD">
@@ -58,7 +66,12 @@
 	</h:form>
 
 
+	<p:panel>
+		<center>
+			<h1>MARCA DE PRODUCTOS</h1>
+		</center>
 
+	</p:panel>
 </h:head>
 <body>
 
