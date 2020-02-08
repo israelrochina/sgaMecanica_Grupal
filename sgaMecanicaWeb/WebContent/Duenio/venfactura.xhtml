@@ -4,14 +4,18 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
+<f:metadata>
+	<f:event listener="#{beanLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
 <h:head>
 	<!-- FACTURACION DEL DUENIO -->
 
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 
 	<h:form id="formMenu">
+	
 
 		<p:menubar>
 			<p:submenu label="INVENTARIO" icon="pi pi-file">
@@ -85,7 +89,7 @@
 					icon="fa fa-file-o" />
 				<h:panelGroup>
 					<p:commandButton value="Guradar factura" icon="fa fa-save"
-						action="#{beanVenFactura.guradarfactura()}" update="@form" />
+						action="#{beanVenFactura.guradarfactura(beanLogin.usuario,beanLogin.clave)}" update="@form" />
 					<p:commandButton value="imprimir"
 						rendered="#{beanVenFactura.facturaCabTempGuardada}" type="button"
 						icon="fa fa-print">
@@ -101,7 +105,7 @@
 				<h:panelGroup>
 					<p:selectOneMenu value="#{beanVenFactura.id_usuario}" filter="true"
 						filterMatchMode="contains">
-						<f:selectItem itemLabel="Selecione ...." itemValue=""
+						<f:selectItem itemLabel="Selecione ...." itemValue="-1"
 							noSelectionOption="true" />
 						<f:selectItems value="#{beanSegPersona.listaSegPersona}" var="per"
 							itemLabel="#{per.nombres}" itemValue="#{per.idPersona}" />
@@ -122,7 +126,7 @@
 
 					</p:selectOneMenu>
 				</h:panelGroup>
-				<h:outputText value="Selecinone el Emisor" style="font-weight: bold" />
+				<h:outputText value="Selecione el Emisor" style="font-weight: bold" />
 				<h:panelGroup>
 					<p:selectOneMenu value="#{beanVenFactura.id_emisor}" filter="true"
 						filterMatchMode="contains">
@@ -134,7 +138,7 @@
 
 					</p:selectOneMenu>
 				</h:panelGroup>
-				<h:outputText value="Selecinone la estado de factura"
+				<h:outputText value="Selecinone eL estado de factura"
 					style="font-weight: bold" />
 				<h:panelGroup>
 					<p:selectOneMenu value="#{beanVenFactura.estadoFactura}">
@@ -155,7 +159,8 @@
 			<p:panel header="Detalle de Prouctos">
 				<p:panelGrid columns="5">
 					<h:outputText value="Producto:" />
-					<p:selectOneMenu value="#{beanVenFactura.id_producto}">
+					<p:selectOneMenu value="#{beanVenFactura.id_producto}" filter="true"
+						filterMatchMode="contains">
 						<f:selectItem itemLabel="Selecione un producto..." itemValue="-1"
 							noSelectionOption="true" />
 						<f:selectItems value="#{beanInvProducto.listaInvProducto}"

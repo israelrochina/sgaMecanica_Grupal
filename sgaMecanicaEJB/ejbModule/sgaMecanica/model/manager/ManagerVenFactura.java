@@ -11,8 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-
 import sgaMecanica.model.entities.InvProducto;
+import sgaMecanica.model.entities.SegColaborador;
 import sgaMecanica.model.entities.SegPersona;
 import sgaMecanica.model.entities.VenDetalle;
 import sgaMecanica.model.entities.VenEmisor;
@@ -35,9 +35,17 @@ public class ManagerVenFactura {
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<VenFactura> findAllVenFactura() {
-		String consulta = "select o from VenFactura o";
+	public List<VenFactura> findAllVenFactura(String colaborado) {
+		String consulta = "select o from VenFactura o where o.segColaborador.segPersona.cedulaRuc=" + "'" + colaborado
+				+ "'";
 		Query q = em.createQuery(consulta, VenFactura.class);
+		return q.getResultList();
+	}
+
+	public List<SegColaborador> findColaborador(String usuario, String clave) {
+		String consulta = "select o from SegColaborador o where o.usuario=" + "'" + usuario + "'" + "and o.clave=" + "'"
+				+ clave + "'";
+		Query q = em.createQuery(consulta, SegColaborador.class);
 		return q.getResultList();
 	}
 
@@ -47,11 +55,10 @@ public class ManagerVenFactura {
 		venFacturaCabTmp.setVenDetalles(new ArrayList<>());
 		return venFacturaCabTmp;
 	}
-	
 
 	public void asignarClienteFacturaTmp(VenFactura venfacturaTmp, Integer id_usuario) throws Exception {
 		SegPersona segPersona = null;
-		if (id_usuario == 0 || id_usuario == null)
+		if (id_usuario <= 0 || id_usuario == null)
 			throw new Exception("Error debe de especificar un Cliente.");
 		try {
 			segPersona = (SegPersona) em.find(SegPersona.class, id_usuario);
@@ -65,7 +72,6 @@ public class ManagerVenFactura {
 		}
 
 	}
-	
 
 	private void calcularVenfactTemp(VenFactura venfactura) {
 		double baseimponible;
@@ -89,10 +95,9 @@ public class ManagerVenFactura {
 		venfactura.setBaseImponible(new BigDecimal(baseImponible));
 		venfactura.setSubtotal(new BigDecimal(subtootalVenfactura));
 		venfactura.setTotal(new BigDecimal(subtotaliva + subtotalsiniva));
-venfactura.setBaseCero(new BigDecimal(subtotalsiniva));
+		venfactura.setBaseCero(new BigDecimal(subtotalsiniva));
 	}
 
-	
 	/* detalle */
 	public void agregarDetallevenfacturaTmp(VenFactura venfacturaTmp, String id_producto, Integer cantidad_producto)
 			throws Exception {
@@ -105,15 +110,22 @@ venfactura.setBaseCero(new BigDecimal(subtotalsiniva));
 			throw new Exception("Error primero debe de especificar el codigo del producto");
 		if (cantidad_producto == null || cantidad_producto.intValue() <= 0)
 			throw new Exception("Error primero debe especificar la cantidad de producto");
-		
+
 		// buamos producto
 		invProd = (InvProducto) em.find(InvProducto.class, id_producto);
-		
-		// Con este if controlo que la cantidad del detalle de la factura no exeda la cantidada que se encuentra en inventario
-		if(cantidad_producto>invProd.getCantidad())
-			throw new Exception("La cantidad exede la cantidad en bodega , actualmente tiene : "+invProd.getCantidad()+" unidades en bodega");
-		
-						
+		for (VenDetalle det : venfacturaTmp.getVenDetalles()) {
+			if (invProd.getIdProducto()==det.getInvProducto().getIdProducto()) {
+				throw new Exception("El producto ya esta en la lista");
+				
+			}
+
+		}
+		// Con este if controlo que la cantidad del detalle de la factura no exeda la
+		// cantidada que se encuentra en inventario
+	if (cantidad_producto > invProd.getCantidad())
+			throw new Exception("La cantidad exede la cantidad en bodega , actualmente tiene : " + invProd.getCantidad()
+					+ " unidades en bodega");
+
 		// creamos un nuevo detalle y llenamos sus propiedades
 		venDetalle = new VenDetalle();
 		venDetalle.setCantidad(cantidad_producto);
@@ -134,32 +146,30 @@ venfactura.setBaseCero(new BigDecimal(subtotalsiniva));
 
 	}
 
-	
-	public void eliminarItemDetalle( String codigoProducto,VenFactura venFacturaTmp) {
-		
+	public void eliminarItemDetalle(String codigoProducto, VenFactura venFacturaTmp) {
+
 		int posicion = -1;
-		for (int i=0;i < venFacturaTmp.getVenDetalles().size();i++) {
-			if(venFacturaTmp.getVenDetalles().get(i).getInvProducto().getIdProducto().equals(codigoProducto)) {
-				posicion=i;
+		for (int i = 0; i < venFacturaTmp.getVenDetalles().size(); i++) {
+			if (venFacturaTmp.getVenDetalles().get(i).getInvProducto().getIdProducto().equals(codigoProducto)) {
+				posicion = i;
 				break;
-			}	
+			}
 		}
-		
+
 		venFacturaTmp.getVenDetalles().remove(posicion);
 		calcularVenfactTemp(venFacturaTmp);
-		
-		
+
 	}
-	
+
 	/*
 	 * Guardar factura Temporal
 	 */
 	public void guardarVenFacturaTemp(Integer id_usuario, VenFactura venFacturaTmp, Integer id_tipopago,
-	
-			Integer id_emisor, Boolean estadofactura, String numeroFactura) throws Exception {
-asignarClienteFacturaTmp(venFacturaTmp, id_usuario);
-		
-		
+			Integer id_emisor, Boolean estadofactura, String numeroFactura, String usuario, String clave)
+			throws Exception {
+
+		asignarClienteFacturaTmp(venFacturaTmp, id_usuario);
+
 		if (venFacturaTmp == null)
 			throw new Exception("Debe de Crear una Factura Primero");
 		if (venFacturaTmp.getVenDetalles() == null || venFacturaTmp.getVenDetalles().size() == 0)
@@ -189,20 +199,29 @@ asignarClienteFacturaTmp(venFacturaTmp, id_usuario);
 		venFacturaTmp.setEstadopagado(estadofactura);
 
 		venFacturaTmp.setNumeroFactura(numeroFactura);
-
+//guardar el colaborador que inserte la factura
+		venFacturaTmp.setSegColaborador(findColaborador(usuario, clave).get(0));
+		System.out.println("llegue :" + findColaborador(usuario, clave).get(0).getClave()
+				+ findColaborador(usuario, clave).get(0).getUsuario());
 		// verificamos calculos
 		calcularVenfactTemp(venFacturaTmp);
 
 		for (VenDetalle det : venFacturaTmp.getVenDetalles()) {
-			det.setVenFactura(venFacturaTmp);
-			System.out.println("llegue y guarde"+venFacturaTmp);
+			InvProducto invProd=(InvProducto)em.find(InvProducto.class, det.getInvProducto().getIdProducto());
+			Integer cant=invProd.getCantidad()- det.getCantidad();
+			if (cant>=0) {
+				det.setVenFactura(venFacturaTmp);
+				invProd.setCantidad(cant);
+			}else {
+				throw new Exception("No se pude ingresar el producto: "+det.getInvProducto().getNombre()+" La cantidad exede lo existente en bodega");
+			}
+			
+
 		}
 		em.persist(venFacturaTmp);
-		System.out.println(venFacturaTmp.getVenDetalles().get(0).getIdVenDetalle());
-		
+		// System.out.println(venFacturaTmp.getVenDetalles().get(0).getIdVenDetalle());
+
 		venFacturaTmp = null;
 	}
-
-	
 
 }

@@ -1,0 +1,16 @@
+
+body{
+	background:url(#{resource['img/carro.jpg']});
+	
+	
+}
+
+#div2{
+	
+	
+aling-items: center ;
+ justify-content: center;
+	margin-left: auto; 
+	margin-right: auto; 
+	width: 400px;
+}

@@ -4,21 +4,20 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-
-
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-
 import sgaMecanica.model.entities.SegColaborador;
+import sgaMecanica.model.manager.ManagerAuditoriaDAO;
 import sgaMecanica.model.manager.ManagerLogin;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 @Named
-@javax.enterprise.context.SessionScoped
+@SessionScoped
 public class BeanLogin implements Serializable {
 
 	@EJB
@@ -26,7 +25,9 @@ public class BeanLogin implements Serializable {
 	List<SegColaborador> listaColaborador;
 	String usuario;
 	String clave;
-	String ruta;
+	private static Integer codigoAuditoria;
+	@EJB
+	private ManagerAuditoriaDAO managerAudDAO;
 
 	@PostConstruct
 	public void inicializar() {
@@ -37,37 +38,44 @@ public class BeanLogin implements Serializable {
 	public String actionListenerLogin() {
 		try {
 			managerLogin.accederRuta(usuario, clave);
-			return managerLogin.getRuta()+"?faces-redirect=true";
+			codigoAuditoria = managerLogin.obtenerId(usuario);
+			return managerLogin.getRuta() + "?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			JSFUtil.clearMensajeError(e.getMessage());
 			e.printStackTrace();
 			return "";
 		}
-		
-	
+
 	}
-	public String actionSalir() {
-		managerLogin.setRuta(null);;
+
+	public String actionSalir() throws Exception {
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		managerAudDAO.crearEvento(codigoAuditoria, this.getClass(), "SALIR", "ME SALI");
+		managerLogin.setRuta(null);
+		usuario = null;
+		clave = null;
+		codigoAuditoria = null;
 		return "/loginp.xhtml?faces-redirect=true";
 	}
-	
+
 	/////////////////////////
 
-	public void actionVerificarLogin(){
+	public void actionVerificarLogin() {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		String requestPath=ec.getRequestPathInfo();
+		String requestPath = ec.getRequestPathInfo();
 		try {
-			//si no paso por login:
-			if(managerLogin==null || managerLogin.isEmpty(managerLogin.getRuta())){
+			// si no paso por login:
+			if (managerLogin == null || managerLogin.isEmpty(managerLogin.getRuta())) {
 				ec.redirect(ec.getRequestContextPath() + "/faces/loginp.xhtml");
-			}else{
-				//validar las rutas de acceso:
-				if(requestPath.contains("/colaborador") && managerLogin.getRuta().startsWith("/colaborador"))
+			} else {
+				// validar las rutas de acceso:
+				if (requestPath.contains("/colaborador") && managerLogin.getRuta().startsWith("/colaborador"))
 					return;
-				if(requestPath.contains("/Duenio") && managerLogin.getRuta().startsWith("/Duenio"))
+				if (requestPath.contains("/Duenio") && managerLogin.getRuta().startsWith("/Duenio"))
 					return;
-				//caso contrario significa que hizo login pero intenta acceder a ruta no permitida:
+				// caso contrario significa que hizo login pero intenta acceder a ruta no
+				// permitida:
 				ec.redirect(ec.getRequestContextPath() + "/faces/loginp.xhtml");
 			}
 		} catch (IOException e) {
@@ -100,12 +108,12 @@ public class BeanLogin implements Serializable {
 		this.clave = clave;
 	}
 
-	public String getRuta() {
-		return ruta;
+	public static Integer getCodigoAuditoria() {
+		return codigoAuditoria;
 	}
 
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
+	public static void setCodigoAuditoria(Integer codigoAuditoria) {
+		BeanLogin.codigoAuditoria = codigoAuditoria;
 	}
 
 }

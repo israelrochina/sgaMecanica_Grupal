@@ -4,9 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
+<f:metadata>
+	<f:event listener="#{beanLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
 <h:head>
-	<meta http-equiv="#{beanLogin.actionVerificarLogin()}" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<h:form id="formMenu">
 
 		<p:menubar>
@@ -68,6 +71,10 @@
 <body>
 
 	<h:form id="form2">
+	<h:outputText value="Ingrese la cedula del colaborador para realizar un filtro:" />
+	<p:inputText value="#{beanVenFactura.colaborador}"/>
+	<p:commandButton value="Consultar" action="#{beanVenFactura.actionConsultarVenFactura()}"
+	update="@form"></p:commandButton>
 		<p:panel header="Datos Factura">
 			<p:dataTable value="#{beanVenFactura.listaVenFactura}" var="fa"
 				paginator="true" rows="5" reflow="true">

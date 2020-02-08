@@ -40,10 +40,10 @@ public class ManagerLogin {
 			if (segColaborador.getClave().equals(clave)) {
 				if (segColaborador.getSegRol().getNombre().equals("Dueño")) {
 					System.out.println("Dueño");
-					ruta="/Duenio/invmarca.xhtml";
+					ruta = "/Duenio/invmarca.xhtml";
 				} else if (segColaborador.getSegRol().getNombre().equals("Colaborador")) {
 					System.out.println("Colaborador");
-					ruta="/colaborador/invproductoc.xhtml";
+					ruta = "/colaborador/invproductoc.xhtml";
 				}
 			} else {
 				throw new Exception("El usuario o contraseña incorrectas.");
@@ -53,8 +53,9 @@ public class ManagerLogin {
 		}
 
 	}
-	public static boolean isEmpty(String cadena){
-		if(cadena==null||cadena.length()==0)
+
+	public static boolean isEmpty(String cadena) {
+		if (cadena == null || cadena.length() == 0)
 			return true;
 		return false;
 	}
@@ -65,5 +66,12 @@ public class ManagerLogin {
 
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
+	}
+
+	///////// obetener id
+	public Integer obtenerId(String usuario)  {
+		
+			SegColaborador segColaborador = consultaUsuario(usuario).get(0);
+	return segColaborador.getIdColaborador();
 	}
 }

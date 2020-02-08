@@ -2,6 +2,7 @@ package sgaMecanica.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -37,6 +38,10 @@ public class SegColaborador implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_rol", nullable=false)
 	private SegRol segRol;
+
+	//bi-directional many-to-one association to VenFactura
+	@OneToMany(mappedBy="segColaborador")
+	private List<VenFactura> venFacturas;
 
 	public SegColaborador() {
 	}
@@ -87,6 +92,28 @@ public class SegColaborador implements Serializable {
 
 	public void setSegRol(SegRol segRol) {
 		this.segRol = segRol;
+	}
+
+	public List<VenFactura> getVenFacturas() {
+		return this.venFacturas;
+	}
+
+	public void setVenFacturas(List<VenFactura> venFacturas) {
+		this.venFacturas = venFacturas;
+	}
+
+	public VenFactura addVenFactura(VenFactura venFactura) {
+		getVenFacturas().add(venFactura);
+		venFactura.setSegColaborador(this);
+
+		return venFactura;
+	}
+
+	public VenFactura removeVenFactura(VenFactura venFactura) {
+		getVenFacturas().remove(venFactura);
+		venFactura.setSegColaborador(null);
+
+		return venFactura;
 	}
 
 }

@@ -49,9 +49,13 @@ public class VenFactura implements Serializable {
 	private List<VenCredito> venCreditos;
 
 	//bi-directional many-to-one association to VenDetalle
-	//@OneToMany(mappedBy="venFactura")
-	@OneToMany(mappedBy="venFactura",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="venFactura")
 	private List<VenDetalle> venDetalles;
+
+	//bi-directional many-to-one association to SegColaborador
+	@ManyToOne
+	@JoinColumn(name="id_colaborador", nullable=false)
+	private SegColaborador segColaborador;
 
 	//bi-directional many-to-one association to SegPersona
 	@ManyToOne
@@ -177,6 +181,14 @@ public class VenFactura implements Serializable {
 		venDetalle.setVenFactura(null);
 
 		return venDetalle;
+	}
+
+	public SegColaborador getSegColaborador() {
+		return this.segColaborador;
+	}
+
+	public void setSegColaborador(SegColaborador segColaborador) {
+		this.segColaborador = segColaborador;
 	}
 
 	public SegPersona getSegPersona() {

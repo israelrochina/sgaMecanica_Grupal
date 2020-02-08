@@ -28,6 +28,7 @@ public class BeanInvProducto implements Serializable {
 	private Integer id_modelo;
 	private Integer id_proveedor;	
 	private InvProducto invProductoSelecionado;
+	private Integer cantidadsuma;
 	@PostConstruct
 	public void inicializar() {
 		
@@ -58,6 +59,7 @@ public class BeanInvProducto implements Serializable {
 		listaInvProducto=managerInvProduto.findAllInvProducto();
 		JSFUtil.crearMensajeInfo("Producto Eliminado");
 	}
+	//actualizar
 	public void actionListenerSelccionarInvProducto(InvProducto invProducto) {
 		invProductoSelecionado= invProducto;
 	}
@@ -66,12 +68,26 @@ public class BeanInvProducto implements Serializable {
 			managerInvProduto.actualizarInvProducto(invProductoSelecionado, id_iva, id_marcaproducto, id_categoria, id_modelo, id_proveedor);
 			
 			listaInvProducto=managerInvProduto.findAllInvProducto();
+			
 			JSFUtil.crearMensajeInfo("Datos actualizados correctamente");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			JSFUtil.clearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	//sumar cantidad
+	public void actionInsetarCantidadProducto() {
+		try {
+			managerInvProduto.insertarCantidadProducto(invProductoSelecionado, cantidadsuma);
+			listaInvProducto=managerInvProduto.findAllInvProducto();
+			JSFUtil.crearMensajeInfo("Cantidad ingresada correctamente");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JSFUtil.clearMensajeError(e.getMessage());
+			e.printStackTrace();
+		}
+		
 	}
 	/* Panel */
 	public void actionListenerColapsarPanel() {
@@ -149,6 +165,14 @@ public class BeanInvProducto implements Serializable {
 
 	public void setInvProductoSelecionado(InvProducto invProductoSelecionado) {
 		this.invProductoSelecionado = invProductoSelecionado;
+	}
+
+	public Integer getCantidadsuma() {
+		return cantidadsuma;
+	}
+
+	public void setCantidadsuma(Integer cantidadsuma) {
+		this.cantidadsuma = cantidadsuma;
 	}
 	
 	

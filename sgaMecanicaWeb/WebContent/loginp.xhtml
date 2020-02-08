@@ -6,37 +6,50 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="login.css"></h:outputStylesheet>
+	
+	<div style="height: 50px;background: ">
+	
+	
+			
+			<p:linkButton value="salir" outcome="/index.html" icon="fa fa-sign-out" style="float: right;"></p:linkButton>
+			
+		
+		</div>
+		<br />
+	
 </h:head>
-<body>
+<body >
 	<p:growl>
 		<p:autoUpdate />
 	</p:growl>
-	<div style="margin-left: auto; margin-right: auto; width: 400px;">
+	
+		<div  id="div2" >
 
-		<h:form>
-			<p:messages>
-				<p:autoUpdate />
-			</p:messages>
-			<p:panel>
-				<center>Bienvenido a la pagina web SUPER FRENO: Ingrese el
-					usuario y la clave.</center>
-			</p:panel>
-			<br />
-			<p:panel header="LOGIN">
-				<p:panelGrid columns="2">
-					<h:outputText value="USUARIO" />
-					<p:inputText value="#{beanLogin.usuario}" />
-					<h:outputText value="CLAVE" />
-					<p:inputText value="#{beanLogin.clave}" />
-					<br />
-					<p:commandButton action="#{beanLogin.actionListenerLogin()}"
-						value="INGRESAR" icon="fa fa-sign-in" />
+			<h:form>
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+				<p:panel>
+					<center>Bienvenido a la pagina web SUPER FRENO: Ingrese el
+						usuario y la clave.</center>
+				</p:panel>
+				<br />
+				<p:panel header="LOGIN" >
+					<p:panelGrid columns="2" style="justify-content: center;">
+						<h:outputText value="USUARIO" />
+						<p:inputText value="#{beanLogin.usuario}" />
+						<h:outputText value="CLAVE" />
+						<p:inputText value="#{beanLogin.clave}" />
+						<br />
+						<p:commandButton id="b" action="#{beanLogin.actionListenerLogin()}"
+							value="INGRESAR" icon="fa fa-sign-in" />
 
-				</p:panelGrid>
-			</p:panel>
-		</h:form>
-	</div>
-
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</div>
+	
 </body>
 </html>

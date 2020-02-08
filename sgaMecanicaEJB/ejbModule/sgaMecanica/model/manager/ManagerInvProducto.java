@@ -22,14 +22,15 @@ import sgaMecanica.model.entities.VenIva;
 @Stateless
 @LocalBean
 public class ManagerInvProducto {
-@PersistenceContext
-private EntityManager em;
-    /**
-     * Default constructor. 
-     */
-    public ManagerInvProducto() {
-        // TODO Auto-generated constructor stub
-    }
+	@PersistenceContext
+	private EntityManager em;
+
+	/**
+	 * Default constructor.
+	 */
+	public ManagerInvProducto() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public List<InvProducto> findAllInvProducto() {
 		String consulta = "select o from InvProducto o";
@@ -39,63 +40,81 @@ private EntityManager em;
 	}
 
 	public InvProducto findInvPoductoByCodigo(String id_producto) {
-		return em.find(InvProducto.class,id_producto);
+		return em.find(InvProducto.class, id_producto);
 
 	}
-	public void insertarInvProducto(InvProducto invProducto,Integer id_iva,Integer id_marcaproducto, Integer id_categoria,Integer id_modelo,Integer id_proveedor) throws Exception {
-		if (findInvPoductoByCodigo(invProducto.getIdProducto())!= null) {
+
+	public void insertarInvProducto(InvProducto invProducto, Integer id_iva, Integer id_marcaproducto,
+			Integer id_categoria, Integer id_modelo, Integer id_proveedor) throws Exception {
+		if (findInvPoductoByCodigo(invProducto.getIdProducto()) != null) {
 			throw new Exception("Ya existe eL Codigo indicado.");
 
-		}else {
-			VenIva venIva=(VenIva) em.find(VenIva.class, id_iva);
+		} else {
+			VenIva venIva = (VenIva) em.find(VenIva.class, id_iva);
 			invProducto.setVenIva(venIva);
-			
-			InvMarcaproducto invMarcaproducto=(InvMarcaproducto) em.find(InvMarcaproducto.class, id_marcaproducto);
+
+			InvMarcaproducto invMarcaproducto = (InvMarcaproducto) em.find(InvMarcaproducto.class, id_marcaproducto);
 			invProducto.setInvMarcaproducto(invMarcaproducto);
-			
-			InvCategoria invCategoria=(InvCategoria) em.find(InvCategoria.class, id_categoria);
+
+			InvCategoria invCategoria = (InvCategoria) em.find(InvCategoria.class, id_categoria);
 			invProducto.setInvCategoria(invCategoria);
-			
-			InvModelo invModelo=(InvModelo) em.find(InvModelo.class, id_modelo);
+
+			InvModelo invModelo = (InvModelo) em.find(InvModelo.class, id_modelo);
 			invProducto.setInvModelo(invModelo);
-			
-			ProProveedor proProveedor=(ProProveedor) em.find(ProProveedor.class, id_proveedor);
+
+			ProProveedor proProveedor = (ProProveedor) em.find(ProProveedor.class, id_proveedor);
 			invProducto.setProProveedor(proProveedor);
-			
+
 			em.persist(invProducto);
 		}
-	
+
 	}
-	//Eliminar
+
+	// Eliminar
 	public void eliminarInvProducto(String id_producto) {
-		InvProducto invProducto= findInvPoductoByCodigo(id_producto);
+		InvProducto invProducto = findInvPoductoByCodigo(id_producto);
 		if (invProducto != null) {
 			em.remove(invProducto);
 		}
 	}
-	//actualizar
-	public void actualizarInvProducto(InvProducto invProducto,Integer id_iva,Integer id_marcaproducto, Integer id_categoria,Integer id_modelo,Integer id_proveedor) throws Exception {
-		InvProducto invProd=findInvPoductoByCodigo(invProducto.getIdProducto());
+
+	// actualizar
+	public void actualizarInvProducto(InvProducto invProducto, Integer id_iva, Integer id_marcaproducto,
+			Integer id_categoria, Integer id_modelo, Integer id_proveedor) throws Exception {
+		InvProducto invProd = findInvPoductoByCodigo(invProducto.getIdProducto());
 		if (invProd == null) {
 			throw new Exception("No existe el producto especificado.");
 
 		} else {
-			VenIva venIva=(VenIva) em.find(VenIva.class, id_iva);
+			VenIva venIva = (VenIva) em.find(VenIva.class, id_iva);
 			invProducto.setVenIva(venIva);
-			
-			InvMarcaproducto invMarcaproducto=(InvMarcaproducto) em.find(InvMarcaproducto.class, id_marcaproducto);
+
+			InvMarcaproducto invMarcaproducto = (InvMarcaproducto) em.find(InvMarcaproducto.class, id_marcaproducto);
 			invProducto.setInvMarcaproducto(invMarcaproducto);
-			
-			InvCategoria invCategoria=(InvCategoria) em.find(InvCategoria.class, id_categoria);
+
+			InvCategoria invCategoria = (InvCategoria) em.find(InvCategoria.class, id_categoria);
 			invProducto.setInvCategoria(invCategoria);
-			
-			InvModelo invModelo=(InvModelo) em.find(InvModelo.class, id_modelo);
+
+			InvModelo invModelo = (InvModelo) em.find(InvModelo.class, id_modelo);
 			invProducto.setInvModelo(invModelo);
-			
-			ProProveedor proProveedor=(ProProveedor) em.find(ProProveedor.class, id_proveedor);
+
+			ProProveedor proProveedor = (ProProveedor) em.find(ProProveedor.class, id_proveedor);
 			invProducto.setProProveedor(proProveedor);
+			
 			em.merge(invProducto);
 
+		}
+
+	}
+
+	/// ingresar cantidad de producto
+	public void insertarCantidadProducto(InvProducto invProducto, Integer cantidadSuma) throws Exception {
+		InvProducto inp = findInvPoductoByCodigo(invProducto.getIdProducto());
+		if (inp == null) {
+			throw new Exception("No existe el producto especificado.");
+		} else {
+			inp.setCantidad(invProducto.getCantidad() + cantidadSuma);
+			em.persist(inp);
 		}
 
 	}

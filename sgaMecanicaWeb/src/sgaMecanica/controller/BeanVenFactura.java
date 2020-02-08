@@ -5,9 +5,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import sgaMecanica.model.entities.VenFactura;
+import sgaMecanica.model.manager.ManagerAuditoriaDAO;
 import sgaMecanica.model.manager.ManagerVenFactura;
 import java.io.Serializable;
 
@@ -26,11 +28,20 @@ public class BeanVenFactura implements Serializable {
 	private Integer id_emisor;
 	private Boolean estadoFactura;
 	private String numerofactura;
+private String colaborador;
+@EJB
+private static ManagerAuditoriaDAO managerAudDAO;
+
+@Inject
+private BeanLogin beanLogin;
 
 	@PostConstruct
 	public void inicializar() {
-		listaVenFactura = managerVenFactura.findAllVenFactura(); // InvProducto=managerInvProduto.findAllInvProducto();
-
+		
+	}
+	public String actionConsultarVenFactura() {
+		listaVenFactura = managerVenFactura.findAllVenFactura(colaborador); // InvProducto=managerInvProduto.findAllInvProducto();
+return"";
 	}
 
 	public String crearNuevaFactura() {
@@ -84,15 +95,17 @@ public class BeanVenFactura implements Serializable {
 	}
 	
 
-	public String guradarfactura() {
+	public String guradarfactura(String usuario ,String clave){
 		if (facturaCabTempGuardada == true) {
 			JSFUtil.crearrMensajeWarning("La factura ya fue gradada");
 			return "";
 		}
 		try {
-			managerVenFactura.guardarVenFacturaTemp(id_usuario, nuevoVenFactura, id_tipopago, id_emisor, estadoFactura,
-					numerofactura);
+			managerVenFactura.guardarVenFacturaTemp(id_usuario, nuevoVenFactura, id_tipopago,
+					id_emisor, estadoFactura,
+					numerofactura,usuario,clave);
 			facturaCabTempGuardada = true;
+			managerAudDAO.crearEvento(beanLogin.getCodigoAuditoria(), this.getClass(), "GUARDAR FACTURA", "GUARDO UNA FACTURA");
 		} catch (Exception e) {
 			// TODO: handle exception
 			JSFUtil.clearMensajeError(e.getMessage());
@@ -184,5 +197,19 @@ public class BeanVenFactura implements Serializable {
 	public void setNumerofactura(String numerofactura) {
 		this.numerofactura = numerofactura;
 	}
+	public String getColaborador() {
+		return colaborador;
+	}
+	public void setColaborador(String colaborador) {
+		this.colaborador = colaborador;
+	}
+	public BeanLogin getBeanLogin() {
+		return beanLogin;
+	}
+	public void setBeanLogin(BeanLogin beanLogin) {
+		this.beanLogin = beanLogin;
+	}
+
+	
 
 }
