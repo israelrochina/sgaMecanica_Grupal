@@ -36,10 +36,10 @@ public class ManagerVenEmisor {
 
 	}
 
+	
+	// INSERTAR
 	public void insertarVenEmisor(VenEmisor venEmisor) {
-
 		em.persist(venEmisor);
-
 	}
 
 	// ELIMINAR
@@ -50,7 +50,6 @@ public class ManagerVenEmisor {
 
 	public void eliminarVenEmisor(Integer id_emisor) {
 		VenEmisor venEmi = findVenEmisorlByCodigo(id_emisor);
-
 		if (venEmi != null) {
 			em.remove(venEmi);
 		}

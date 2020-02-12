@@ -1,12 +1,13 @@
 package sgaMecanica.model.manager;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+import javax.persistence.Query;
 
 import sgaMecanica.model.entities.Auditoria;
 
@@ -25,7 +26,6 @@ private EntityManager em;
         // TODO Auto-generated constructor stub
     }
 
-   
     public void crearEvento(Integer idColaborador,Class clase,String metodo,String descripcion) throws Exception{
 		Auditoria evento= new Auditoria();
 		//cambio para probar git

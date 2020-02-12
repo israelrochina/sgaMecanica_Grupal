@@ -4,15 +4,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<f:metadata>
-	<f:event listener="#{beanLogin.actionVerificarLogin()}"
-		type="preRenderView"></f:event>
-</f:metadata>
+
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	
-	
-	<h:form id="formMenu">
+
+<h:form id="formMenu">
 		<p:menubar>
 			<p:submenu label="INVENTARIO" icon="pi pi-file">
 				<p:menuitem value="CATEGORIA" url="invcategoria.xhtml" />
@@ -63,61 +58,53 @@
 
 		</p:menubar>
 	</h:form>
-
 	
-	
-
 	<br />
 	<p:panel>
 		<center>
-			<h1>MOSTRAR FACTURA</h1>
+			<h1>LISTA DE AUDITORIAS</h1>
 		</center>
 	</p:panel>
 	<br />
+	
+
 </h:head>
-
 <body>
-
 	<h:form id="form2">
-		<h:outputText
-			value="Ingrese la cedula del colaborador para realizar un filtro:" />
-		<p:inputText value="#{beanVenFactura.colaborador}" />
-		<p:commandButton value="Consultar"
-			action="#{beanVenFactura.actionConsultarVenFactura()}" update="@form"></p:commandButton>
-		<p:panel header="Datos Factura">
-			<p:dataTable value="#{beanVenFactura.listaVenFactura}" var="fa"
-				paginator="true" rows="5" reflow="true">
+		<p:panel header="DATOS AUDITORIA">
+			
+			<p:dataTable value="#{beanAuditoria.listaAuditoria}" var="audi"
+				paginator="true" rows="10" reflow="true">
 
-				<p:column headerText="Numero" width="120">
-					<h:outputText value="#{fa.numeroFactura}" />
-				</p:column>
-				<p:column headerText="Fecha">
-					<h:outputText value="#{fa.fechaEmicion}" />
+				<p:column headerText="ID">
+					<h:outputText value="#{audi.idAuditoria}" />
 				</p:column>
 
+				<p:column headerText="METODO">
+					<h:outputText value="#{audi.metodo}}" />
+				</p:column>
 
-				<p:column headerText="Base imponible">
-					<h:outputText value="#{fa.baseImponible}" />
+				<p:column headerText="DESCRIPCION">
+					<h:outputText value="#{audi.descripcion}" />
 				</p:column>
-				<p:column headerText="Base Cero">
-					<h:outputText value="#{fa.baseCero}" />
-				</p:column>
-				<p:column headerText="Subtotal">
-					<h:outputText value="#{fa.subtotal}" />
-				</p:column>
-				<p:column headerText="Estado">
-					<h:outputText value="#{fa.estadopagado}" />
-				</p:column>
-				<p:column headerText="Cliente">
 
+				<p:column headerText="DIRECCION IP">
+					<h:outputText value="#{audi.direccionIp}" />
 				</p:column>
-				<p:column headerText="Tipop Pago">
 
+				<p:column headerText="COLABORADOR ID">
+					<h:outputText value="#{audi.idColaborador}" />
 				</p:column>
-				<p:column headerText="Emisor">
 
+				<p:column headerText="FECHA EVENTO">
+					<h:outputText value="#{audi.fechaEvento}" />
 				</p:column>
+
 			</p:dataTable>
+			
+
+
+
 		</p:panel>
 	</h:form>
 

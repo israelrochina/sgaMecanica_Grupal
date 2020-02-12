@@ -11,13 +11,13 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	
+	
 	<h:form id="formMenu">
-
 		<p:menubar>
 			<p:submenu label="INVENTARIO" icon="pi pi-file">
 				<p:menuitem value="CATEGORIA" url="invcategoria.xhtml" />
 				<p:separator />
-				<p:menuitem value="MARCA" url="invmarca.xhtml" />
+				<p:menuitem value="MARCA DE CARROS" url="invmarca.xhtml" />
 				<p:separator />
 				<p:menuitem value="MARCA PRODUCTO" url="invmarcaproducto.xhtml" />
 				<p:separator />
@@ -38,7 +38,6 @@
 				<p:menuitem value="GEBERAR FACTURA" url="venfactura.xhtml" />
 				<p:separator />
 				<p:menuitem value="MOTRAR FACTURAS" url="venfacturaConsulta.xhtml" />
-			
 			</p:submenu>
 
 			<p:submenu label="SEGURIDAD">
@@ -52,16 +51,21 @@
 			<p:submenu label="PROVEEDOR">
 				<p:menuitem value="PROVEEDOR" url="proproveedor.xhtml" />
 			</p:submenu>
-			<p:submenu label="AUDITORIA">
 
+			<p:submenu label="AUDITORIA">
+				<p:menuitem value="REPORTE" url="auditoria.xhtml" />
 			</p:submenu>
+
 			<f:facet name="options">
-				<p:commandButton value="SALIR" action="#{beanLogin.actionSalir()}" 
-				icon="fa fa-sign-out"/>
+				<p:commandButton value="SALIR" action="#{beanLogin.actionSalir()}"
+					icon="fa fa-sign-out" />
 			</f:facet>
+
 		</p:menubar>
 	</h:form>
 
+	
+	
 <br />
 <p:panel>
 		<center>

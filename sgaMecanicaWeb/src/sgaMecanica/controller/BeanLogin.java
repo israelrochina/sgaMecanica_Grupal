@@ -37,7 +37,7 @@ public class BeanLogin implements Serializable {
 
 	public String actionListenerLogin() {
 		try {
-			managerLogin.accederRuta(usuario, clave);
+			managerLogin.accederRuta(usuario,clave);
 			codigoAuditoria = managerLogin.obtenerId(usuario);
 			return managerLogin.getRuta() + "?faces-redirect=true";
 		} catch (Exception e) {
